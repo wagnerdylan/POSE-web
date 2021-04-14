@@ -1,15 +1,11 @@
 
+import * as Objs from './objs/objs.js';
 
-class WebView {
-    #scene
-    #camera
-    #renderer
+var web_view = {
 
-    #cube
-
-    constructor() {
+    create_scene: function () {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000e+8);
         this.renderer = new THREE.WebGLRenderer();
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -17,30 +13,27 @@ class WebView {
         document.getElementById("main").appendChild(this.renderer.domElement);
 
         this.init_view();
-    };
+    },
 
-    init_view = () => {
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        this.cube = new THREE.Mesh(geometry, material);
-        this.scene.add(this.cube);
+    init_view: function () {
 
-        this.camera.position.z = 5;
-    }
+        this.camera.position.z = 13.95700e+8;
 
-    animate = () => {
-        requestAnimationFrame(this.animate);
+        this.objs = new Objs.Objs(this.scene);
+    },
 
-        this.cube.rotation.x += 0.01;
-        this.cube.rotation.y += 0.01;
+    animate: function () {
+        requestAnimationFrame(this.animate.bind(this));
+
+        this.objs.update();
 
         this.renderer.render(this.scene, this.camera);
-    };
+    },
+
+    launch: function () {
+        web_view.create_scene();
+        web_view.animate();
+    }
 }
 
-const main = function () {
-    webview = new WebView();
-    webview.animate()
-}
-
-main();
+web_view.launch()
