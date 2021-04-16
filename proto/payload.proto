@@ -1,0 +1,38 @@
+// Proto file for POSE web server <-> web client
+
+syntax = "proto3";
+
+enum SolarObj {
+    SUN = 0;
+    EARTH = 1;
+    MOON = 2;
+}
+
+message Vec3D {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message SolarObjData {
+    SolarObj solar_obj = 1;
+    Vec3D abs_coord = 2;
+    optional Vec3D velocity = 3;
+}
+
+message SimObjData {
+    uint64 id = 1;
+    SolarObj soi = 2;
+    Vec3D abs_coord = 3;
+    optional Vec3D velocity = 4;
+}
+
+// Atomic simulation update message for a given simulation time. 
+// This message includes (objects):
+//  (1) all solar objects tracked within the simulation. 
+//  (2) all watched simulation objects requested by the webview.
+message SimUpdate {
+    double sim_time = 1;
+    repeated SolarObjData solar_obj_update = 2;
+    repeated SimObjData sim_obj_update = 3;
+}
