@@ -1,6 +1,7 @@
 
-require('../webview.js');
+import { web_view } from '../webview.js';
 
+// Google protobuf 
 var messages = require('../../proto/payload_pb.js');
 
 var web_controller = {
@@ -29,7 +30,10 @@ var web_controller = {
 
     handle_sim_data: function (sim_data) {
         // Data sim_data needs to be deserialized
+        var sim_update = messages.SimUpdate.deserializeBinary(sim_data);
+
+        console.log(sim_update);
     }
 }
 
-exports.web_controller = web_controller;
+export { web_controller };

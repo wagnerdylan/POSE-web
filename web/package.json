@@ -4,10 +4,10 @@
   "description": "POSE Web",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack --config webpack.config.js"
   },
   "author": "Dylan R. Wagner",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "webpack": "^5.33.2",
     "webpack-cli": "^4.6.0"
