@@ -1,5 +1,10 @@
 
-import * as Objs from './objs/objs.js';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+import { Objs } from './objs/objs.js';
+import { web_controller } from './controller/webcontroller.js';
+import { init_ui_menu } from './ui/ui_menubar.js';
 
 const tracking_enum = Object.freeze({ 'SUN': { id: 0, scale: 2000000 }, "EARTH": { id: 1, scale: 20000 }, "MOON": { id: 2, scale: 10000 }, "OBJECT": { id: 3, scale: 1, obj_id: null } });
 
@@ -15,7 +20,7 @@ var web_camera = {
         this.camera = new THREE.OrthographicCamera(this.tracking.obj.scale * window.innerWidth / - 2, this.tracking.obj.scale * window.innerWidth / 2, this.tracking.obj.scale * window.innerHeight / 2, this.tracking.obj.scale * window.innerHeight / - 2, 0.1, 6.95700e+25);
         this.camera.position.z = 1;
 
-        this.controls = new THREE.OrbitControls(this.camera, document.querySelector('#main'));
+        this.controls = new OrbitControls(this.camera, document.querySelector('#main'));
         this.controls.screenSpacePanning = false;
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
@@ -122,7 +127,7 @@ var web_view = {
      * Initialize initial scene objects
      */
     init_view: function () {
-        this.objs = new Objs.Objs(this.scene);
+        this.objs = new Objs(this.scene);
     },
 
     /**
@@ -155,39 +160,11 @@ var web_view = {
     }
 }
 
-var web_controller = {
-    setup: function () {
-        // Connect to data source
-        this.connect_web_socket();
-    },
-
-    connect_web_socket: function () {
-        var ws_uri = (window.location.protocol == 'https:' && 'wss://' || 'ws://') + window.location.host + '/ws/';
-        this.ws_connection = new WebSocket(ws_uri);
-
-        this.ws_connection.onopen = function () {
-            console.log("WebSocket connected");
-        }
-
-        this.ws_connection.onclose = function () {
-            console.log("Websocket closed");
-        }
-
-        this.ws_connection.onmessage = function (ws_payload) {
-            console.log("Websocket msg received");
-            this.handle_sim_data(ws_payload.data);
-        }
-    },
-
-    handle_sim_data: function (sim_data) {
-        // Data sim_data needs to be deserialized
-    }
-}
-
 $(window).load(function () {
     web_controller.setup();
     web_view.launch();
+
+    init_ui_menu();
 });
 
-// Export webview vars for access within other area of the application
 export { web_view, web_camera, tracking_enum };

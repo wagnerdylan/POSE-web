@@ -1,0 +1,19 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "POSE Web",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dylan R. Wagner",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "google-protobuf": "^3.15.8",
+    "three": "^0.127.0"
+  }
+}

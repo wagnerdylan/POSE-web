@@ -1,6 +1,6 @@
 import { web_camera, web_view, tracking_enum } from '../webview.js';
 
-$(document).ready(function () {
+var init_ui_menu = function () {
     $("#menu").mousedown(function (evt) {
         evt.stopImmediatePropagation();
         return false;
@@ -18,4 +18,6 @@ $(document).ready(function () {
     $("#menu #about-menu-ui").click(function () {
         console.log("About");
     });
-});
+}
+
+export { init_ui_menu };

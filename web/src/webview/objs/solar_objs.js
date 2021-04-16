@@ -1,5 +1,7 @@
 
-export class SolarObjs {
+import * as THREE from 'three';
+
+class SolarObjs {
 
     constructor(scene) {
         this.create_sun(scene);
@@ -7,7 +9,7 @@ export class SolarObjs {
         this.create_moon(scene);
     }
 
-    create_sun = (scene) => {
+    create_sun(scene) {
         // Radius of sun as sphere radius
         const geometry = new THREE.SphereGeometry(6.95700e+8, 64, 64);
         const material = new THREE.MeshBasicMaterial({ color: 0xf9d71c, wireframe: true });
@@ -17,7 +19,7 @@ export class SolarObjs {
         this.sun.position.set(0, 0, 0);
     }
 
-    create_earth = (scene) => {
+    create_earth(scene) {
         // Radius of Earth as sphere radius
         const geometry = new THREE.SphereGeometry(6.3781e+6, 64, 64);
         const material = new THREE.MeshBasicMaterial({ color: 0x0077be, wireframe: true });
@@ -28,7 +30,7 @@ export class SolarObjs {
         this.earth.position.x = 8.95700e+8
     }
 
-    create_moon = (scene) => {
+    create_moon(scene) {
         // Radius of Moon as sphere radius
         const geometry = new THREE.SphereGeometry(1.7381e+6, 64, 64);
         const material = new THREE.MeshBasicMaterial({ color: 0xc2c5cc, wireframe: true });
@@ -39,7 +41,7 @@ export class SolarObjs {
         this.moon.position.x = 10.95700e+8
     }
 
-    update = () => {
+    update() {
         // REMOVE Rotations
         this.sun.rotation.x += 0.01;
         this.sun.rotation.y += 0.01;
@@ -51,3 +53,5 @@ export class SolarObjs {
         this.moon.rotation.y += 0.01;
     }
 }
+
+export { SolarObjs };
