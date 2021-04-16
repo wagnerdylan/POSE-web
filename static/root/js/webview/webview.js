@@ -12,11 +12,10 @@ var web_camera = {
         this.camera.position.z = 1;
 
         this.controls = new THREE.OrbitControls(this.camera, document.querySelector('#main'));
-        this.controls.screenSpacePanning = true;
+        this.controls.screenSpacePanning = false;
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
         this.controls.enableZoom = true;
-        this.controls.target.set(0, 0, 0);
     },
 
     set_tracking: function (to_track, obj_id = null) {
@@ -44,11 +43,13 @@ var web_camera = {
                 obj_pos = objs.solar_objs.moon.position;
                 break;
             case tracking_enum.OBJECT.id:
+                // TODO find object pos within objs
                 break;
             default:
                 break;
         }
 
+        // Set the viewing to proper size for focused object
         if (reset) {
             this.camera.left = this.tracking.obj.scale * window.innerWidth / - 2;
             this.camera.right = this.tracking.obj.scale * window.innerWidth / 2;
@@ -58,15 +59,17 @@ var web_camera = {
             this.camera.updateProjectionMatrix();
         }
 
+        // Set the target of OrbitControls
         this.controls.target.set(obj_pos.x, obj_pos.y, obj_pos.z);
     },
 
     update: function (objs) {
-
         // Set the camera frustum properties 
         this.adjust_camera(objs, this.tracking.updated);
         this.tracking.updated = false;
+    },
 
+    animate: function () {
         this.controls.update();
     }
 }
@@ -85,8 +88,6 @@ var web_view = {
         this.web_camera = web_camera;
         this.web_camera.init_camera();
 
-        this.web_camera.set_tracking(tracking_enum.SUN);
-
         this.init_view();
     },
 
@@ -101,6 +102,8 @@ var web_view = {
         // Pass objs to web camera as tracking needs to be updated
         this.web_camera.update(this.objs);
 
+        this.web_camera.animate();
+
         this.renderer.render(this.scene, this.web_camera.camera);
     },
 
@@ -110,4 +113,8 @@ var web_view = {
     }
 }
 
-web_view.launch();
+$(window).load(function () {
+    web_view.launch();
+});
+
+export { web_view, web_camera, tracking_enum };

@@ -4,17 +4,45 @@
 
 <head>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
     <div id="main">
         <div id="logo_control">
             <img id="logo" src="images/POSE_Logo.svg" />
+            <ul id="menu">
+                <li>
+                    <div>View</div>
+                    <ul>
+                        <li>
+                            <div>Focus</div>
+                            <ul>
+                                <li>
+                                    <div id="focus-sun-menu-ui">Sun</div>
+                                </li>
+                                <li>
+                                    <div id="focus-earth-menu-ui">Earth</div>
+                                </li>
+                                <li>
+                                    <div id="focus-moon-menu-ui">Moon</div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <div id="about-menu-ui">About</div>
+                </li>
+            </ul>
         </div>
     </div>
     <script src="https://unpkg.com/three@0.127.0/build/three.js"></script>
     <script src="https://unpkg.com/three@0.127.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module" src="js/webview/webview.js"></script>
+    <script type="module" src="js/webview/ui/ui_menubar.js"></script>
 </body>
 
 </html>
