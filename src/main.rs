@@ -42,8 +42,8 @@ async fn produce_data_chunk() -> SimDataChunk {
             sim::SolarObjData {
                 solar_obj: SolarObj::Earth as i32,
                 abs_coord: Some(Vec3D {
-                    x: -126036190000.0,
-                    y: -82084790000.0,
+                    x: -124443530000.0,
+                    y: -84562370000.0,
                     z: 0.0,
                 }),
                 velocity: None,
@@ -51,9 +51,9 @@ async fn produce_data_chunk() -> SimDataChunk {
             sim::SolarObjData {
                 solar_obj: SolarObj::Moon as i32,
                 abs_coord: Some(Vec3D {
-                    x: -126074370000.0,
-                    y: -82475070000.0,
-                    z: 15229297.0,
+                    x: -124381930000.0,
+                    y: -84954600000.0,
+                    z: 7120020.0,
                 }),
                 velocity: None,
             },
