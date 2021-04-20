@@ -33,6 +33,7 @@ var web_controller = {
         // Data sim_data needs to be deserialized
         var sim_update = messages.SimUpdate.deserializeBinary(sim_data);
         console.log(sim_update.getSolarObjUpdateList()[2].getAbsCoord().getX());
+        web_view.objs.solar_objs.update(sim_update.getSolarObjUpdateList());
     }
 }
 

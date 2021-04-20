@@ -39,16 +39,20 @@ class SolarObjs {
         this.moon.position.x = 10.95700e+8
     }
 
-    update() {
-        // REMOVE Rotations
-        this.sun.rotation.x += 0.01;
-        this.sun.rotation.y += 0.01;
+    set_pos(obj, vec) {
+        obj.position.set(vec.getX(), vec.getY(), vec.getZ())
+    }
 
-        this.earth.rotation.x += 0.01;
-        this.earth.rotation.y += 0.01;
-
-        this.moon.rotation.x += 0.01;
-        this.moon.rotation.y += 0.01;
+    update(solar_obj_update) {
+        solar_obj_update.forEach(solar_obj => {
+            if (solar_obj.getSolarObj() == 0) {
+                this.set_pos(this.sun, solar_obj.getAbsCoord())
+            } else if (solar_obj.getSolarObj() == 1) {
+                this.set_pos(this.earth, solar_obj.getAbsCoord())
+            } else if (solar_obj.getSolarObj() == 2) {
+                this.set_pos(this.moon, solar_obj.getAbsCoord())
+            }
+        });
     }
 }
 
