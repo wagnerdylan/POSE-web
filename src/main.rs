@@ -3,6 +3,10 @@ use actix_files::Files;
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 
+async fn handle_client_request() {
+    todo!();
+}
+
 struct SimWs;
 
 impl Actor for SimWs {
@@ -12,7 +16,7 @@ impl Actor for SimWs {
 /// Handler for ws::Message message
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for SimWs {
     fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
-        todo!()
+        let spawn_handle = ctx.spawn(handle_client_request().into_actor(self));
     }
 }
 
