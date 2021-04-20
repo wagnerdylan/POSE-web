@@ -12,6 +12,8 @@ actix = "0.10"
 actix-web = "3"
 actix-web-actors = "3"
 prost = "0.7.0"
+futures-util = "0.3.14"
+futures = "0.3.14"
 
 [build-dependencies]
 prost-build = { version = "0.7.0" }
