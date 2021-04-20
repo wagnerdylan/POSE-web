@@ -2,7 +2,7 @@
 import { web_view } from '../webview.js';
 
 // Google protobuf 
-var messages = require('../../proto/payload_pb.js');
+var messages = require('../../proto/sim_pb.js');
 
 var web_controller = {
     setup: function () {
@@ -13,6 +13,7 @@ var web_controller = {
     connect_web_socket: function () {
         var ws_uri = (window.location.protocol == 'https:' && 'wss://' || 'ws://') + window.location.host + '/ws/';
         this.ws_connection = new WebSocket(ws_uri);
+        this.ws_connection.binaryType = "arraybuffer";
 
         this.ws_connection.onopen = function () {
             console.log("WebSocket connected");
@@ -24,16 +25,14 @@ var web_controller = {
 
         this.ws_connection.onmessage = function (ws_payload) {
             console.log("Websocket msg received");
-            console.log(ws_payload.data)
-            //this.handle_sim_data(ws_payload.data);
+            web_controller.handle_sim_data(ws_payload.data);
         }
     },
 
     handle_sim_data: function (sim_data) {
         // Data sim_data needs to be deserialized
         var sim_update = messages.SimUpdate.deserializeBinary(sim_data);
-
-        console.log(sim_update);
+        console.log(sim_update.getSolarObjUpdateList()[2].getAbsCoord().getX());
     }
 }
 
