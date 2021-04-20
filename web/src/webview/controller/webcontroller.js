@@ -24,7 +24,8 @@ var web_controller = {
 
         this.ws_connection.onmessage = function (ws_payload) {
             console.log("Websocket msg received");
-            this.handle_sim_data(ws_payload.data);
+            console.log(ws_payload.data)
+            //this.handle_sim_data(ws_payload.data);
         }
     },
 

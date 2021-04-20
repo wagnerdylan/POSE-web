@@ -7,11 +7,26 @@ use futures_util::{
     stream::{once, repeat, repeat_with},
     StreamExt,
 };
-use sim::{SimObjData, SimRequest, SolarObj, SolarObjData, Vec3D};
+use prost::Message;
+use sim::{SimObjData, SimRequest, SimUpdate, SolarObj, SolarObjData, Vec3D};
 
 mod sim;
 
 fn parse_client_request(msg: Result<ws::Message, ws::ProtocolError>) -> SimRequest {
+    todo!();
+}
+
+#[derive(MessageResponse)]
+struct SimDataChunkStatus;
+
+#[derive(actix::Message)]
+#[rtype(result = "()")]
+struct SimDataChunk {
+    seq_num: usize,
+    data: Vec<u8>,
+}
+
+async fn produce_data_chunk() -> SimDataChunk {
     let sim_update = sim::SimUpdate {
         sim_time: 0.0,
         solar_obj_update: vec![
@@ -54,29 +69,31 @@ fn parse_client_request(msg: Result<ws::Message, ws::ProtocolError>) -> SimReque
             velocity: None,
         }],
     };
-    todo!();
+
+    let mut buf = Vec::<u8>::new();
+    sim_update.encode(&mut buf).unwrap();
+    SimDataChunk {
+        seq_num: 0,
+        data: buf,
+    }
 }
 
-struct SimDataChunk {
-    seq_num: usize,
-}
+struct SimWs {}
 
-fn produce_data_chunk() -> SimDataChunk {
-    todo!()
-}
+impl Handler<SimDataChunk> for SimWs {
+    type Result = ();
 
-struct SimWs {
-    spawn_handle: Option<SpawnHandle>,
-}
-
-impl StreamHandler<SimDataChunk> for SimWs {
-    fn handle(&mut self, item: SimDataChunk, ctx: &mut Self::Context) {
-        todo!()
+    fn handle(&mut self, msg: SimDataChunk, ctx: &mut Self::Context) {
+        ctx.binary(msg.data);
     }
 }
 
 impl Actor for SimWs {
     type Context = ws::WebsocketContext<Self>;
+
+    fn started(&mut self, ctx: &mut Self::Context) {
+        ctx.add_message_stream(once(produce_data_chunk()));
+    }
 }
 
 /// Handler for ws::Message message
@@ -94,17 +111,9 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for SimWs {
                         return;
                     }
 
-                    self.spawn_handle = Some(
-                        ctx.add_stream(
-                            repeat_with(|| {
-                                let mut curr_chunk = 0 as usize;
-                                let data_chunk = produce_data_chunk();
-                                curr_chunk += 1;
-                                data_chunk
-                            })
-                            .take(num_chunks as usize),
-                        ),
-                    );
+                    for i in 0..num_chunks {
+                        ctx.add_message_stream(once(produce_data_chunk()));
+                    }
                 }
             }
         }
@@ -112,7 +121,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for SimWs {
 }
 
 async fn ws_index(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
-    ws::start(SimWs { spawn_handle: None }, &req, stream)
+    ws::start(SimWs {}, &req, stream)
 }
 
 #[actix_web::main]
