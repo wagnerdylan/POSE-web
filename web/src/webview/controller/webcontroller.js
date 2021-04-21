@@ -1,11 +1,15 @@
 
 import { web_view } from '../webview.js';
+import { SimDataBuffer } from './databuffer.js';
 
 // Google protobuf 
 var messages = require('../../proto/sim_pb.js');
 
 var web_controller = {
     setup: function () {
+
+        this.sim_data_buffer = new SimDataBuffer();
+
         // Connect to data source
         this.connect_web_socket();
     },
@@ -32,7 +36,6 @@ var web_controller = {
     handle_sim_data: function (sim_data) {
         // Data sim_data needs to be deserialized
         var sim_update = messages.SimUpdate.deserializeBinary(sim_data);
-        console.log(sim_update.getSolarObjUpdateList()[2].getAbsCoord().getX());
         web_view.objs.solar_objs.update(sim_update.getSolarObjUpdateList());
     }
 }

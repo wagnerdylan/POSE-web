@@ -24,6 +24,7 @@ class SolarObjs {
         this.earth = new THREE.Mesh(geometry, material);
         scene.add(this.earth);
 
+
         // Initial Earth pos just outside of sun.
         this.earth.position.x = 8.95700e+8
     }
