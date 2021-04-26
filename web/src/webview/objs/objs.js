@@ -14,8 +14,9 @@ class Objs {
         plane.position.set(-124443530000.0, -84562370000.0, 0.0);
     }
 
-    update() {
-        this.solar_objs.update();
+    update(sim_data) {
+        // Update solar objs
+        this.solar_objs.update(sim_data.getSolarObjUpdateList());
     }
 }
 

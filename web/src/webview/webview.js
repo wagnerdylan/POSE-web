@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Objs } from './objs/objs.js';
 import { web_controller } from './controller/webcontroller.js';
 import { init_ui_menu } from './ui/ui_menubar.js';
+import { NumberKeyframeTrack } from 'three';
 
 const tracking_enum = Object.freeze({ 'SUN': { id: 0, scale: 2000000 }, "EARTH": { id: 1, scale: 20000 }, "MOON": { id: 2, scale: 10000 }, "OBJECT": { id: 3, scale: 1, obj_id: null } });
 
@@ -121,6 +122,9 @@ var web_view = {
         this.web_camera.init_camera();
 
         this.init_view();
+
+        // REMOVE, make null initially 
+        this.sim_data_generator = web_controller.sim_data_buffer.get_sim_data_range(0.0, 0.0);
     },
 
     /**
@@ -135,7 +139,7 @@ var web_view = {
      * @param {*} sim_data Data used to update scene objects, this data is from the backend simulation or driver app
      */
     update: function (sim_data) {
-        this.objs.update();
+        this.objs.update(sim_data);
     },
 
     /**
@@ -147,6 +151,13 @@ var web_view = {
         this.web_camera.animate();
         // Pass objs to web camera as tracking needs to be updated
         this.web_camera.update(this.objs);
+
+        // TODO hook data update to periodic timer for adjustable playback speeds
+        var sim_data_gen = this.sim_data_generator.next();
+        // if sim_data_gen.done == true, request has been complete
+        if (sim_data_gen.value != null) {
+            this.update(sim_data_gen.value);
+        }
 
         this.renderer.render(this.scene, this.web_camera.camera);
     },
