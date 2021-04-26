@@ -20,7 +20,9 @@ class SolarObjs {
     create_earth(scene) {
         // Radius of Earth as sphere radius
         const geometry = new THREE.SphereGeometry(6.3781e+6, 64, 64);
-        const material = new THREE.MeshBasicMaterial({ color: 0x0077be, wireframe: true });
+        // Apply basic earth texture to earth
+        const texture = new THREE.TextureLoader().load('images/textures/earth/2k_earth_daymap.jpg');
+        const material = new THREE.MeshBasicMaterial({ map: texture });
         this.earth = new THREE.Mesh(geometry, material);
         scene.add(this.earth);
 
@@ -32,7 +34,9 @@ class SolarObjs {
     create_moon(scene) {
         // Radius of Moon as sphere radius
         const geometry = new THREE.SphereGeometry(1.7381e+6, 64, 64);
-        const material = new THREE.MeshBasicMaterial({ color: 0xc2c5cc, wireframe: true });
+        // Apply basic moon texture
+        const texture = new THREE.TextureLoader().load('images/textures/moon/2k_moon.jpg');
+        const material = new THREE.MeshBasicMaterial({ map: texture });
         this.moon = new THREE.Mesh(geometry, material);
         scene.add(this.moon);
 
