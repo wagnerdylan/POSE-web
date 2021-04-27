@@ -2,14 +2,11 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -861,7 +858,7 @@ proto.sim.SimObjData.prototype.hasVelocity = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.sim.SimUpdate.repeatedFields_ = [2,3];
+proto.sim.SimUpdate.repeatedFields_ = [3,4];
 
 
 
@@ -895,6 +892,7 @@ proto.sim.SimUpdate.prototype.toObject = function(opt_includeInstance) {
 proto.sim.SimUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
     simTime: jspb.Message.getFloatingPointFieldWithDefault(msg, 1, 0.0),
+    day: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
     solarObjUpdateList: jspb.Message.toObjectList(msg.getSolarObjUpdateList(),
     proto.sim.SolarObjData.toObject, includeInstance),
     simObjUpdateList: jspb.Message.toObjectList(msg.getSimObjUpdateList(),
@@ -940,11 +938,15 @@ proto.sim.SimUpdate.deserializeBinaryFromReader = function(msg, reader) {
       msg.setSimTime(value);
       break;
     case 2:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setDay(value);
+      break;
+    case 3:
       var value = new proto.sim.SolarObjData;
       reader.readMessage(value,proto.sim.SolarObjData.deserializeBinaryFromReader);
       msg.addSolarObjUpdate(value);
       break;
-    case 3:
+    case 4:
       var value = new proto.sim.SimObjData;
       reader.readMessage(value,proto.sim.SimObjData.deserializeBinaryFromReader);
       msg.addSimObjUpdate(value);
@@ -985,10 +987,17 @@ proto.sim.SimUpdate.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getDay();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      2,
+      f
+    );
+  }
   f = message.getSolarObjUpdateList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      2,
+      3,
       f,
       proto.sim.SolarObjData.serializeBinaryToWriter
     );
@@ -996,7 +1005,7 @@ proto.sim.SimUpdate.serializeBinaryToWriter = function(message, writer) {
   f = message.getSimObjUpdateList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      3,
+      4,
       f,
       proto.sim.SimObjData.serializeBinaryToWriter
     );
@@ -1023,12 +1032,30 @@ proto.sim.SimUpdate.prototype.setSimTime = function(value) {
 
 
 /**
- * repeated SolarObjData solar_obj_update = 2;
+ * optional double day = 2;
+ * @return {number}
+ */
+proto.sim.SimUpdate.prototype.getDay = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 2, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.sim.SimUpdate} returns this
+ */
+proto.sim.SimUpdate.prototype.setDay = function(value) {
+  return jspb.Message.setProto3FloatField(this, 2, value);
+};
+
+
+/**
+ * repeated SolarObjData solar_obj_update = 3;
  * @return {!Array<!proto.sim.SolarObjData>}
  */
 proto.sim.SimUpdate.prototype.getSolarObjUpdateList = function() {
   return /** @type{!Array<!proto.sim.SolarObjData>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.sim.SolarObjData, 2));
+    jspb.Message.getRepeatedWrapperField(this, proto.sim.SolarObjData, 3));
 };
 
 
@@ -1037,7 +1064,7 @@ proto.sim.SimUpdate.prototype.getSolarObjUpdateList = function() {
  * @return {!proto.sim.SimUpdate} returns this
 */
 proto.sim.SimUpdate.prototype.setSolarObjUpdateList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 2, value);
+  return jspb.Message.setRepeatedWrapperField(this, 3, value);
 };
 
 
@@ -1047,7 +1074,7 @@ proto.sim.SimUpdate.prototype.setSolarObjUpdateList = function(value) {
  * @return {!proto.sim.SolarObjData}
  */
 proto.sim.SimUpdate.prototype.addSolarObjUpdate = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.sim.SolarObjData, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.sim.SolarObjData, opt_index);
 };
 
 
@@ -1061,12 +1088,12 @@ proto.sim.SimUpdate.prototype.clearSolarObjUpdateList = function() {
 
 
 /**
- * repeated SimObjData sim_obj_update = 3;
+ * repeated SimObjData sim_obj_update = 4;
  * @return {!Array<!proto.sim.SimObjData>}
  */
 proto.sim.SimUpdate.prototype.getSimObjUpdateList = function() {
   return /** @type{!Array<!proto.sim.SimObjData>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.sim.SimObjData, 3));
+    jspb.Message.getRepeatedWrapperField(this, proto.sim.SimObjData, 4));
 };
 
 
@@ -1075,7 +1102,7 @@ proto.sim.SimUpdate.prototype.getSimObjUpdateList = function() {
  * @return {!proto.sim.SimUpdate} returns this
 */
 proto.sim.SimUpdate.prototype.setSimObjUpdateList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 3, value);
+  return jspb.Message.setRepeatedWrapperField(this, 4, value);
 };
 
 
@@ -1085,7 +1112,7 @@ proto.sim.SimUpdate.prototype.setSimObjUpdateList = function(value) {
  * @return {!proto.sim.SimObjData}
  */
 proto.sim.SimUpdate.prototype.addSimObjUpdate = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.sim.SimObjData, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.sim.SimObjData, opt_index);
 };
 
 

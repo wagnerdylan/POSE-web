@@ -21,7 +21,7 @@ message Vec3D {
 message SolarObjData {
     SolarObj solar_obj = 1; // Which solar object
     Vec3D abs_coord = 2; // Absolute coords of solar object
-    optional Vec3D velocity = 3; // Velocity of solar object
+    Vec3D velocity = 3; // Velocity of solar object
 }
 
 // Data for a single simulation object
@@ -29,7 +29,7 @@ message SimObjData {
     uint64 id = 1; // ID of the simulation object
     SolarObj soi = 2; // Sphere of influnce of simulation object
     Vec3D abs_coord = 3; // Absolute coords of simulation object
-    optional Vec3D velocity = 4; // Velocity of simulation object
+    Vec3D velocity = 4; // Velocity of simulation object
 }
 
 // Atomic simulation update message for a given simulation time. 
@@ -38,8 +38,9 @@ message SimObjData {
 //  (2) all watched simulation objects requested by the webview.
 message SimUpdate {
     double sim_time = 1; // Simulation time of the update
-    repeated SolarObjData solar_obj_update = 2; // Solar object simulation data
-    repeated SimObjData sim_obj_update = 3; // Simulation object data
+    double day = 2; // Day of the simulation update
+    repeated SolarObjData solar_obj_update = 3; // Solar object simulation data
+    repeated SimObjData sim_obj_update = 4; // Simulation object data
 }
 
 // Data request for a single simulation object

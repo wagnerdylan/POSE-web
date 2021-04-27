@@ -29,6 +29,7 @@ struct SimDataChunk {
 async fn produce_data_chunk() -> SimDataChunk {
     let sim_update = sim::SimUpdate {
         sim_time: 0.0,
+        day: 0.0,
         solar_obj_update: vec![
             sim::SolarObjData {
                 solar_obj: SolarObj::Sun as i32,

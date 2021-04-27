@@ -46,11 +46,14 @@ pub struct SimUpdate {
     /// Simulation time of the update
     #[prost(double, tag="1")]
     pub sim_time: f64,
+    /// Day of the simulation update
+    #[prost(double, tag="2")]
+    pub day: f64,
     /// Solar object simulation data
-    #[prost(message, repeated, tag="2")]
+    #[prost(message, repeated, tag="3")]
     pub solar_obj_update: ::prost::alloc::vec::Vec<SolarObjData>,
     /// Simulation object data
-    #[prost(message, repeated, tag="3")]
+    #[prost(message, repeated, tag="4")]
     pub sim_obj_update: ::prost::alloc::vec::Vec<SimObjData>,
 }
 /// Data request for a single simulation object
